@@ -14,6 +14,14 @@ const DiceBoard = () => {
         }))
     );
 
+    function rollDice() {
+        setDice((previous) => 
+            previous.map((die) => 
+                die.held ? die : {...die, value: Math.ceil(Math.random() * 6)}
+            )
+        )
+    }
+
     return <div>DiceBoard</div>
 }
 
