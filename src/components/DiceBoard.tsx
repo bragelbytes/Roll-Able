@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dice from "./Dice";
 
 type DiceType = {
@@ -7,6 +7,8 @@ type DiceType = {
 }
 
 const DiceBoard = () => {
+    const [inputValue, setInputValue] = useState<string>('');
+
     const [dice, setDice] = useState<DiceType[]>(() =>
         Array.from({length: 5}, ()=> ({
             value: Math.ceil(Math.random() * 6),
@@ -14,7 +16,23 @@ const DiceBoard = () => {
         }))
     );
 
-    function rollDice() {
+    const updateDiceAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    }
+
+    useEffect(() => {
+        const newCount = Number(inputValue);
+        if(!isNaN(newCount) && newCount > 0){
+            setDice(
+                Array.from({length: newCount}, () => ({
+                    value: Math.ceil(Math.random() * 6),
+                    held: false,
+                }))
+            );
+        }
+    }, [inputValue])
+
+    const rollDice = () => {
         setDice((previous) => 
             previous.map((die) => 
                 die.held ? die : {...die, value: Math.ceil(Math.random() * 6)}
@@ -22,7 +40,7 @@ const DiceBoard = () => {
         )
     }
 
-    function toggleHold(index: number){
+    const toggleHold = (index: number) => {
         setDice((previous) =>
             previous.map((die, i) =>
                 i === index ? {...die, held: !die.held} : die
@@ -32,6 +50,12 @@ const DiceBoard = () => {
 
     return (
         <div>
+            <input 
+                type="text"
+                value={inputValue}
+                onChange={updateDiceAmount}
+            />
+
             <button onClick={rollDice} style={{ marginBottom: "1rem" }}>
                 Roll
             </button>
