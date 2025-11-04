@@ -20,20 +20,25 @@ const DiceBoard = () => {
         setInputValue(e.target.value);
     }
 
+    // any time input value changes add or subtract dice 
+    // but keep current dice intact when possible
     useEffect(() => {
         const newCount = Number(inputValue);
         if(!isNaN(newCount) && newCount > 0){
             setDice((prevDice) => {
                 const difference = newCount - prevDice.length;
                 if(difference > 0){
+                    // add more dice to current batch
                     const newDice = Array.from({length: difference}, () => ({
                         value: Math.ceil(Math.random() * 6),
                         held: false
                     }));
                     return [...prevDice, ...newDice];
                 } else if(difference < 0) {
+                    // remove dice from batch
                     return prevDice.slice(0, newCount);
                 } else {
+                    // do nothing
                     return prevDice;
                 }
             });
@@ -59,9 +64,12 @@ const DiceBoard = () => {
     return (
         <div>
             <input 
-                type="text"
+                type="number"
+                min={1}
+                max={20}
                 value={inputValue}
                 onChange={updateDiceAmount}
+                placeholder="number of dice you would like to roll"
             />
 
             <button onClick={rollDice} style={{ marginBottom: "1rem" }}>
