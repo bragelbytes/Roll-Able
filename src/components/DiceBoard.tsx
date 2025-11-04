@@ -23,14 +23,22 @@ const DiceBoard = () => {
     useEffect(() => {
         const newCount = Number(inputValue);
         if(!isNaN(newCount) && newCount > 0){
-            setDice(
-                Array.from({length: newCount}, () => ({
-                    value: Math.ceil(Math.random() * 6),
-                    held: false,
-                }))
-            );
+            setDice((prevDice) => {
+                const difference = newCount - prevDice.length;
+                if(difference > 0){
+                    const newDice = Array.from({length: difference}, () => ({
+                        value: Math.ceil(Math.random() * 6),
+                        held: false
+                    }));
+                    return [...prevDice, ...newDice];
+                } else if(difference < 0) {
+                    return prevDice.slice(0, newCount);
+                } else {
+                    return prevDice;
+                }
+            });
         }
-    }, [inputValue])
+    }, [inputValue]);
 
     const rollDice = () => {
         setDice((previous) => 
