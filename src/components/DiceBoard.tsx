@@ -62,28 +62,23 @@ const DiceBoard = () => {
     }
 
     return (
-        <div>
-            <input 
-                type="number"
-                min={1}
-                max={20}
-                value={inputValue}
-                onChange={updateDiceAmount}
-                placeholder="number of dice you would like to roll"
-            />
+        <>
+            <div className="controls">
+                <input 
+                    type="number"
+                    min={1}
+                    max={20}
+                    value={inputValue}
+                    onChange={updateDiceAmount}
+                    placeholder="number of dice you would like to roll"
+                />
 
-            <button onClick={rollDice} style={{ marginBottom: "1rem" }}>
-                Roll
-            </button>
+                <button onClick={rollDice} className="roll-button">
+                    Roll
+                </button>
+            </div>
 
-            <div
-                style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                gap: "1rem",
-                }}
-            >
+            <div>
                 {dice.map((die, index) => (
                 <Dice
                     key={index}
@@ -93,7 +88,7 @@ const DiceBoard = () => {
                 />
                 ))}
             </div>
-        </div>
+        </>
     )
 }
 

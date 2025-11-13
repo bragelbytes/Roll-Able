@@ -1,3 +1,4 @@
+import '../styles/dice.css'
 
 type DiceProps = {
     value: number;
@@ -9,15 +10,7 @@ const Dice = ({value, held, onClick}: DiceProps) => {
     return (
         <button
             onClick={onClick}
-            style={{
-                width: "60px",
-                height: "60px",
-                fontSize: "1.5rem",
-                borderRadius: "8px",
-                backgroundColor: held ? "#ffd54f" : "#fff",
-                border: "2px solid #000",
-                cursor: "pointer",
-            }}
+            className={`dice-face ${held ? "held" : ""}`}
         >
             {value}
         </button>
